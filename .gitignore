@@ -1,0 +1,12 @@
+target/
+!.mvn/wrapper/maven-wrapper.jar
+!mvnw
+!mvnw.cmd
+*.class
+*.log
+.DS_Store
+.idea/
+*.iml
+.vscode/
+cookies.txt
+txt

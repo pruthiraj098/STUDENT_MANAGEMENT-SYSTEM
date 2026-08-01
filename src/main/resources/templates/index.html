@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Management System - Enterprise Academic Portal</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body style="background: radial-gradient(circle at top right, #1e1b4b 0%, #0f172a 60%); min-height: 100vh;">
+
+    <!-- Top Public Navigation Header -->
+    <header class="app-header position-relative" style="background: rgba(15, 23, 42, 0.85); border-bottom: 1px solid rgba(255, 255, 255, 0.15); padding: 1rem 2rem;">
+        <div class="container-fluid d-flex justify-content-between align-items-center">
+            <!-- Brand Logo & Written Title -->
+            <a th:href="@{/}" class="text-decoration-none d-flex align-items-center gap-3">
+                <img th:src="@{/images/logo.png}" alt="SMS Logo" class="rounded-3 shadow" style="width: 46px; height: 46px; object-fit: cover; border: 2px solid var(--accent-cyan);">
+                <div>
+                    <h4 class="text-white font-heading fw-bold mb-0" style="letter-spacing: -0.01em;">STUDENT MANAGEMENT SYSTEM</h4>
+                    <span class="small text-info fw-semibold" style="color: var(--accent-cyan) !important; font-size: 0.75rem;">ENTERPRISE ACADEMIC PORTAL</span>
+                </div>
+            </a>
+
+            <!-- Right Nav Links -->
+            <div class="d-flex align-items-center gap-3">
+                <a th:href="@{/login}" class="btn btn-outline-light rounded-3 px-3 py-2 fw-semibold" style="border-color: rgba(255,255,255,0.25);">
+                    <i class="fa-solid fa-right-to-bracket me-1"></i> Sign In
+                </a>
+                <a th:href="@{/register}" class="btn btn-gradient-primary rounded-3 px-4 py-2 fw-bold">
+                    <i class="fa-solid fa-user-plus me-1"></i> Register Account
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Landing Viewport -->
+    <main class="container py-5">
+
+        <!-- Hero Banner Section -->
+        <div class="row align-items-center g-5 py-4 mb-5">
+            <div class="col-lg-7">
+                <span class="badge badge-status badge-active mb-3 px-3 py-2 fs-6">
+                    <i class="fa-solid fa-graduation-cap me-2 text-cyan"></i> Student Management System Portal
+                </span>
+                <h1 class="display-4 font-heading fw-extrabold text-white mb-3" style="line-height: 1.15; letter-spacing: -0.02em;">
+                    Empowering Modern Education with <span style="background: var(--gradient-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Intelligent Portal Control</span>
+                </h1>
+                <p class="fs-5 text-white mb-4" style="color: #e2e8f0 !important; max-width: 620px; line-height: 1.6;">
+                    Comprehensive web solution built for academic institutions to streamline student records, course scheduling, department analytics, and real-time GPA evaluation.
+                </p>
+                
+                <div class="d-flex flex-wrap gap-3 mb-4">
+                    <a th:href="@{/login}" class="btn btn-gradient-primary btn-lg px-4 py-3 shadow-lg fw-bold">
+                        <i class="fa-solid fa-right-to-bracket me-2"></i> Access Student Portal
+                    </a>
+                    <a th:href="@{/register}" class="btn btn-outline-cyan btn-lg px-4 py-3 rounded-3 fw-bold text-white" style="border: 2px solid var(--accent-cyan); background: rgba(6, 182, 212, 0.1);">
+                        <i class="fa-solid fa-user-plus me-2"></i> Create Student Account
+                    </a>
+                </div>
+            </div>
+
+            <!-- Logo & Portal Visual Emblem Card -->
+            <div class="col-lg-5 text-center">
+                <div class="glass-card p-4 p-md-5 position-relative overflow-hidden" style="background: linear-gradient(135deg, rgba(30, 41, 59, 0.85) 0%, rgba(15, 23, 42, 0.9) 100%); border: 1px solid rgba(255, 255, 255, 0.2);">
+                    <div class="mb-3">
+                        <img th:src="@{/images/logo.png}" alt="Student Management System Logo" class="img-fluid rounded-4 shadow-lg mb-3" style="max-width: 220px; border: 3px solid var(--accent-cyan);">
+                    </div>
+                    <h3 class="text-white font-heading fw-bold mb-1">Student Management System</h3>
+                    <p class="small text-white mb-3" style="color: #cbd5e1 !important;">Official University Portal &amp; Academic Records Engine</p>
+                    
+                    <div class="p-3 rounded-3 instruction-box text-start">
+                        <div class="d-flex align-items-center gap-2 mb-2">
+                            <i class="fa-solid fa-shield-halved text-cyan fs-5" style="color: var(--accent-cyan) !important;"></i>
+                            <h6 class="fw-bold mb-0 text-white" style="color: #ffffff !important;">System Security &amp; Access</h6>
+                        </div>
+                        <p class="small text-white mb-0" style="color: #ffffff !important;">
+                            Role-based security protects student privacy while enabling faculty and admin collaboration.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Live System Metric Counters -->
+        <div class="row g-4 mb-5">
+            <div class="col-sm-6 col-xl-3">
+                <div class="glass-card kpi-card">
+                    <div class="kpi-icon-box" style="background: var(--gradient-primary);">
+                        <i class="fa-solid fa-user-graduate"></i>
+                    </div>
+                    <div>
+                        <div class="kpi-title" style="color: #cbd5e1 !important;">Total Students</div>
+                        <div class="kpi-value" th:text="${totalStudents}">0</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-6 col-xl-3">
+                <div class="glass-card kpi-card">
+                    <div class="kpi-icon-box" style="background: var(--gradient-emerald);">
+                        <i class="fa-solid fa-book"></i>
+                    </div>
+                    <div>
+                        <div class="kpi-title" style="color: #cbd5e1 !important;">Active Courses</div>
+                        <div class="kpi-value" th:text="${totalCourses}">0</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-6 col-xl-3">
+                <div class="glass-card kpi-card">
+                    <div class="kpi-icon-box" style="background: var(--gradient-amber);">
+                        <i class="fa-solid fa-building-columns"></i>
+                    </div>
+                    <div>
+                        <div class="kpi-title" style="color: #cbd5e1 !important;">Departments</div>
+                        <div class="kpi-value" th:text="${totalDepartments}">0</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-6 col-xl-3">
+                <div class="glass-card kpi-card">
+                    <div class="kpi-icon-box" style="background: var(--gradient-rose);">
+                        <i class="fa-solid fa-award"></i>
+                    </div>
+                    <div>
+                        <div class="kpi-title" style="color: #cbd5e1 !important;">Average GPA</div>
+                        <div class="kpi-value" th:text="${avgGpa}">0.0</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- System Features Grid -->
+        <div class="mb-5">
+            <div class="text-center mb-4">
+                <span class="badge badge-role mb-2">System Features</span>
+                <h2 class="text-white font-heading fw-bold">Everything You Need for Academic Excellence</h2>
+            </div>
+
+            <div class="row g-4">
+                <div class="col-md-6 col-lg-3">
+                    <div class="glass-card p-4 h-100">
+                        <div class="brand-icon mb-3" style="background: var(--gradient-primary);">
+                            <i class="fa-solid fa-users"></i>
+                        </div>
+                        <h5 class="text-white font-heading fw-bold mb-2">Student Profiles</h5>
+                        <p class="small text-white mb-0" style="color: #cbd5e1 !important;">Maintain detailed student records, roll numbers, contact details, and status history.</p>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-3">
+                    <div class="glass-card p-4 h-100">
+                        <div class="brand-icon mb-3" style="background: var(--gradient-emerald);">
+                            <i class="fa-solid fa-book-journal-whills"></i>
+                        </div>
+                        <h5 class="text-white font-heading fw-bold mb-2">Course Management</h5>
+                        <p class="small text-white mb-0" style="color: #cbd5e1 !important;">Manage courses, credits, faculty instructors, and department allocations effortlessly.</p>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-3">
+                    <div class="glass-card p-4 h-100">
+                        <div class="brand-icon mb-3" style="background: var(--gradient-amber);">
+                            <i class="fa-solid fa-chart-pie"></i>
+                        </div>
+                        <h5 class="text-white font-heading fw-bold mb-2">Analytics &amp; GPA</h5>
+                        <p class="small text-white mb-0" style="color: #cbd5e1 !important;">Automated CGPA computation, grade tracking, and real-time department distribution graphs.</p>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-3">
+                    <div class="glass-card p-4 h-100">
+                        <div class="brand-icon mb-3" style="background: var(--gradient-rose);">
+                            <i class="fa-solid fa-lock"></i>
+                        </div>
+                        <h5 class="text-white font-heading fw-bold mb-2">Role Security</h5>
+                        <p class="small text-white mb-0" style="color: #cbd5e1 !important;">Role-based access for Administrators, Instructors, and Students with BCrypt password protection.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- High-Contrast White Registration Instructions & Guidelines Box -->
+        <div class="glass-card p-4 p-md-5 mb-5 instruction-box">
+            <div class="d-flex align-items-center gap-3 mb-3">
+                <i class="fa-solid fa-circle-info fs-3" style="color: var(--accent-cyan) !important;"></i>
+                <h4 class="text-white font-heading fw-bold mb-0" style="color: #ffffff !important;">Student Management System — Access Guidelines</h4>
+            </div>
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <h6 class="fw-bold text-white mb-2" style="color: #ffffff !important;"><i class="fa-solid fa-user-check me-2 text-info"></i> How to Access Your Account</h6>
+                    <ul class="text-white small mb-0 ps-3" style="color: #ffffff !important; line-height: 1.7;">
+                        <li class="mb-1" style="color: #ffffff !important;">Click <strong>Sign In</strong> to log in with your registered email or username.</li>
+                        <li class="mb-1" style="color: #ffffff !important;">New students or instructors can click <strong>Register Account</strong> to create a profile.</li>
+                        <li style="color: #ffffff !important;">Forgot your password? Use the <strong>Password Recovery</strong> link on the sign in page.</li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <h6 class="fw-bold text-white mb-2" style="color: #ffffff !important;"><i class="fa-solid fa-shield-cat me-2 text-warning"></i> Portal Rules &amp; Policies</h6>
+                    <ul class="text-white small mb-0 ps-3" style="color: #ffffff !important; line-height: 1.7;">
+                        <li class="mb-1" style="color: #ffffff !important;">Ensure your email address is valid to receive password recovery tokens.</li>
+                        <li class="mb-1" style="color: #ffffff !important;">Student Roll Numbers are unique identifiers allocated upon registration.</li>
+                        <li style="color: #ffffff !important;">Academic integrity and administrative guidelines apply to all portal entries.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="py-4 text-center border-top border-secondary border-opacity-25 text-white" style="background: rgba(9, 13, 22, 0.9); color: #cbd5e1 !important;">
+        <div class="container">
+            <p class="small mb-1" style="color: #cbd5e1 !important;">&copy; 2026 Student Management System. Enterprise Academic Portal. All Rights Reserved.</p>
+            <div class="d-flex justify-content-center gap-3 small">
+                <a th:href="@{/login}" class="text-decoration-none text-info" style="color: var(--accent-cyan) !important;">Sign In</a>
+                <span class="text-muted">|</span>
+                <a th:href="@{/register}" class="text-decoration-none text-info" style="color: var(--accent-cyan) !important;">Register Account</a>
+                <span class="text-muted">|</span>
+                <a th:href="@{/forgot-password}" class="text-decoration-none text-info" style="color: var(--accent-cyan) !important;">Forgot Password</a>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

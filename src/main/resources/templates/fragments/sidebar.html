@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<body>
+<div th:fragment="sidebar(activeTab)" class="app-sidebar">
+    <div class="sidebar-brand">
+        <div class="brand-icon">
+            <i class="fa-solid fa-graduation-cap"></i>
+        </div>
+        <div class="brand-title">
+            StudentHub<br><span style="font-size: 0.7rem; color: var(--accent-cyan); font-weight: 500;">MANAGEMENT SYSTEM</span>
+        </div>
+    </div>
+    
+    <div class="sidebar-nav">
+        <div class="nav-section-title">Navigation</div>
+        
+        <a th:href="@{/dashboard}" th:classappend="${activeTab == 'dashboard' ? 'active' : ''}" class="nav-link-custom">
+            <i class="fa-solid fa-chart-pie"></i>
+            <span>Dashboard</span>
+        </a>
+        
+        <a th:href="@{/students}" th:classappend="${activeTab == 'students' ? 'active' : ''}" class="nav-link-custom">
+            <i class="fa-solid fa-user-graduate"></i>
+            <span>Students</span>
+        </a>
+        
+        <a th:href="@{/courses}" th:classappend="${activeTab == 'courses' ? 'active' : ''}" class="nav-link-custom">
+            <i class="fa-solid fa-book-open"></i>
+            <span>Courses</span>
+        </a>
+
+        <a th:href="@{/departments}" th:classappend="${activeTab == 'departments' ? 'active' : ''}" class="nav-link-custom">
+            <i class="fa-solid fa-building-columns"></i>
+            <span>Departments</span>
+        </a>
+
+        <a th:href="@{/enrollments}" th:classappend="${activeTab == 'enrollments' ? 'active' : ''}" class="nav-link-custom">
+            <i class="fa-solid fa-clipboard-check"></i>
+            <span>Enrollments & Grades</span>
+        </a>
+
+        <div class="nav-section-title mt-4">Account & System</div>
+        
+        <div class="px-3 py-2 text-muted" style="font-size: 0.85rem;">
+            Logged in as:<br>
+            <strong style="color: var(--text-main);" sec:authentication="name">User</strong>
+            <span class="badge badge-role ms-1" sec:authentication="principal.authorities[0]">ROLE</span>
+        </div>
+
+        <form th:action="@{/logout}" method="post" class="px-2 mt-2">
+            <button type="submit" class="btn btn-outline-danger w-100 btn-sm rounded-3">
+                <i class="fa-solid fa-right-from-bracket me-2"></i> Logout
+            </button>
+        </form>
+    </div>
+</div>
+</body>
+</html>

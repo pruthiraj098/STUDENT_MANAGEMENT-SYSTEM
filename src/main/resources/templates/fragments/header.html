@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<body>
+<header th:fragment="header" class="app-header">
+    <div class="d-flex align-items-center gap-3">
+        <h4 class="mb-0 text-white font-heading fw-semibold">Academic Portal</h4>
+    </div>
+
+    <div class="d-flex align-items-center gap-3">
+        <div class="user-profile-badge">
+            <div class="avatar-circle">
+                <i class="fa-solid fa-user"></i>
+            </div>
+            <div class="d-none d-md-block">
+                <div class="fw-semibold text-white" style="font-size: 0.875rem;" sec:authentication="name">Username</div>
+                <div style="font-size: 0.725rem; color: var(--text-muted);" sec:authentication="principal.authorities[0]">Role</div>
+            </div>
+        </div>
+    </div>
+</header>
+</body>
+</html>

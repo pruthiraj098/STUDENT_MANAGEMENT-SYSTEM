@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enrollments & Grades - Student Management System</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+
+<div class="app-wrapper">
+    <!-- Sidebar Fragment -->
+    <div th:replace="~{fragments/sidebar :: sidebar('enrollments')}"></div>
+
+    <div class="app-main">
+        <!-- Header Fragment -->
+        <div th:replace="~{fragments/header :: header}"></div>
+
+        <div class="p-4 p-md-5">
+            <div th:if="${successMsg}" class="alert alert-success border-0 rounded-3 mb-4" style="background: rgba(16, 185, 129, 0.2); color: #a7f3d0;" th:text="${successMsg}"></div>
+
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
+                <div>
+                    <h3 class="text-white font-heading fw-bold mb-1">Course Enrollments &amp; Grade Records</h3>
+                    <p class="text-muted mb-0">Record student marks, assign letter grades, and manage course enrollments</p>
+                </div>
+                <div sec:authorize="hasAnyRole('ADMIN', 'INSTRUCTOR')">
+                    <a th:href="@{/enrollments/assign}" class="btn btn-gradient-primary">
+                        <i class="fa-solid fa-plus me-1"></i> Enroll Student in Course
+                    </a>
+                </div>
+            </div>
+
+            <div class="glass-card p-4">
+                <div class="table-responsive">
+                    <table class="custom-table">
+                        <thead>
+                            <tr>
+                                <th>Student's Name</th>
+                                <th>Course</th>
+                                <th>Semester</th>
+                                <th>Grades</th>
+                                <th>Attendance (%)</th>
+                                <th>Lab Record Submission Details</th>
+                                <th class="text-end" sec:authorize="hasAnyRole('ADMIN', 'INSTRUCTOR')">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="e : ${enrollments}">
+                                <td>
+                                    <div class="fw-semibold text-white" th:text="${e.student.fullName}">Student Name</div>
+                                    <div style="font-size: 0.75rem; color: var(--accent-cyan);" th:text="${e.student.studentId}">STU1001</div>
+                                </td>
+                                <td>
+                                    <div class="fw-semibold text-white" th:text="${e.course.title}">Course Title</div>
+                                    <div style="font-size: 0.75rem; color: var(--text-dim);" th:text="${e.course.code}">CS101</div>
+                                </td>
+                                <td>
+                                    <span class="badge bg-secondary text-white px-2.5 py-1" th:text="${e.semester}">Semester 1</span>
+                                </td>
+                                <td>
+                                    <div class="fw-bold" th:style="${e.numericGrade != null ? 'color: var(--accent-amber);' : 'color: var(--text-dim);'}">
+                                        <span th:text="${e.numericGrade != null ? e.numericGrade + '%' : 'Not Graded'}">--</span>
+                                        <span th:if="${e.letterGrade != null}" class="badge bg-primary ms-1" th:text="${e.letterGrade}">A+</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="d-flex align-items-center gap-2">
+                                        <span class="fw-semibold text-white" th:text="${e.attendancePercentage != null ? e.attendancePercentage + '%' : '100%'}">100%</span>
+                                        <span class="badge bg-success opacity-75 small">Present</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div>
+                                        <span th:classappend="${e.labStatus == 'SUBMITTED' || e.labStatus == 'EVALUATED' ? 'badge-active' : 'badge-graduated'}" class="badge-status mb-1" th:text="${e.labStatus != null ? e.labStatus : 'SUBMITTED'}">SUBMITTED</span>
+                                        <div class="small text-white" style="font-size: 0.78rem; color: #cbd5e1 !important;" th:text="${e.labSubmissionDetails != null ? e.labSubmissionDetails : 'Manual Verified'}">Lab Details</div>
+                                    </div>
+                                </td>
+                                <td class="text-end" sec:authorize="hasAnyRole('ADMIN', 'INSTRUCTOR')">
+                                    <div class="d-flex justify-content-end gap-2 align-items-center">
+                                        <!-- Inline Grade Form -->
+                                        <form th:action="@{/enrollments/grade}" method="post" class="d-flex gap-1">
+                                            <input type="hidden" name="enrollmentId" th:value="${e.id}">
+                                            <input type="number" step="0.1" min="0" max="100" name="numericGrade" th:value="${e.numericGrade}" class="form-control form-control-sm custom-input py-1 px-2" style="width: 75px;" placeholder="0-100" required>
+                                            <button type="submit" class="btn btn-sm btn-outline-success py-1 px-2" title="Quick Save Grade">
+                                                <i class="fa-solid fa-check"></i>
+                                            </button>
+                                        </form>
+
+                                        <a th:href="@{/enrollments/delete/{id}(id=${e.id})}" class="btn btn-sm btn-outline-danger py-1 px-2" onclick="return confirm('Remove student record?');" title="Remove Record">
+                                            <i class="fa-solid fa-trash"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr th:if="${#lists.isEmpty(enrollments)}">
+                                <td colspan="7" class="text-center text-muted py-5">No student academic records found. Click 'Enroll Student in Course' above to add records.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer Fragment -->
+        <div th:replace="~{fragments/footer :: footer}"></div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

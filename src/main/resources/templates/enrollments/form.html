@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enroll Student in Course</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+
+<div class="app-wrapper">
+    <!-- Sidebar Fragment -->
+    <div th:replace="~{fragments/sidebar :: sidebar('enrollments')}"></div>
+
+    <div class="app-main">
+        <!-- Header Fragment -->
+        <div th:replace="~{fragments/header :: header}"></div>
+
+        <div class="p-4 p-md-5">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div>
+                    <h3 class="text-white font-heading fw-bold mb-1">Enroll Student in Course</h3>
+                    <p class="text-muted mb-0">Select a student and assign them to an active academic course</p>
+                </div>
+                <a th:href="@{/enrollments}" class="btn btn-outline-light rounded-3">
+                    <i class="fa-solid fa-arrow-left me-1"></i> Back to Enrollments
+                </a>
+            </div>
+
+            <div class="glass-card p-4 p-md-5" style="max-width: 750px; margin: 0 auto;">
+                <form th:action="@{/enrollments/save}" th:object="${enrollmentDto}" method="post">
+
+                    <div class="row g-4">
+                        <!-- Student Selection -->
+                        <div class="col-md-6">
+                            <label class="form-label text-white small fw-semibold" style="color: #ffffff !important;">STUDENT'S NAME *</label>
+                            <select th:field="*{studentId}" class="form-select custom-input" required>
+                                <option value="">-- Choose Student --</option>
+                                <option th:each="s : ${students}" th:value="${s.id}" th:text="${s.fullName} + ' (' + ${s.studentId} + ')'"></option>
+                            </select>
+                            <div class="text-danger small mt-1" th:if="${#fields.hasErrors('studentId')}" th:errors="*{studentId}"></div>
+                        </div>
+
+                        <!-- Course Selection -->
+                        <div class="col-md-6">
+                            <label class="form-label text-white small fw-semibold" style="color: #ffffff !important;">COURSE *</label>
+                            <select th:field="*{courseId}" class="form-select custom-input" required>
+                                <option value="">-- Choose Course --</option>
+                                <option th:each="c : ${courses}" th:value="${c.id}" th:text="${c.code} + ' - ' + ${c.title} + ' (' + ${c.credits} + ' Credits)'"></option>
+                            </select>
+                            <div class="text-danger small mt-1" th:if="${#fields.hasErrors('courseId')}" th:errors="*{courseId}"></div>
+                        </div>
+
+                        <!-- Semester -->
+                        <div class="col-md-6">
+                            <label class="form-label text-white small fw-semibold" style="color: #ffffff !important;">SEMESTER *</label>
+                            <select th:field="*{semester}" class="form-select custom-input" required>
+                                <option value="Semester 1">Semester 1</option>
+                                <option value="Semester 2">Semester 2</option>
+                                <option value="Semester 3">Semester 3</option>
+                                <option value="Semester 4">Semester 4</option>
+                                <option value="Semester 5">Semester 5</option>
+                                <option value="Semester 6">Semester 6</option>
+                                <option value="Semester 7">Semester 7</option>
+                                <option value="Semester 8">Semester 8</option>
+                            </select>
+                        </div>
+
+                        <!-- Grade -->
+                        <div class="col-md-6">
+                            <label class="form-label text-white small fw-semibold" style="color: #ffffff !important;">GRADE (0 - 100 MARKS)</label>
+                            <input type="number" step="0.1" min="0" max="100" th:field="*{numericGrade}" class="form-control custom-input" placeholder="e.g. 88.5">
+                            <div class="text-danger small mt-1" th:if="${#fields.hasErrors('numericGrade')}" th:errors="*{numericGrade}"></div>
+                        </div>
+
+                        <!-- Attendance -->
+                        <div class="col-md-6">
+                            <label class="form-label text-white small fw-semibold" style="color: #ffffff !important;">ATTENDANCE PERCENTAGE (%)</label>
+                            <input type="number" step="0.1" min="0" max="100" th:field="*{attendancePercentage}" class="form-control custom-input" placeholder="e.g. 92.5%">
+                            <div class="text-danger small mt-1" th:if="${#fields.hasErrors('attendancePercentage')}" th:errors="*{attendancePercentage}"></div>
+                        </div>
+
+                        <!-- Lab Record Status -->
+                        <div class="col-md-6">
+                            <label class="form-label text-white small fw-semibold" style="color: #ffffff !important;">LAB RECORD SUBMISSION STATUS</label>
+                            <select th:field="*{labStatus}" class="form-select custom-input">
+                                <option value="SUBMITTED">SUBMITTED</option>
+                                <option value="EVALUATED">EVALUATED &amp; VERIFIED</option>
+                                <option value="PENDING">PENDING SUBMISSION</option>
+                                <option value="NEEDS_REVISION">NEEDS REVISION</option>
+                            </select>
+                        </div>
+
+                        <!-- Lab Record Submission Details -->
+                        <div class="col-12">
+                            <label class="form-label text-white small fw-semibold" style="color: #ffffff !important;">LAB RECORD SUBMISSION DETAILS</label>
+                            <input type="text" th:field="*{labSubmissionDetails}" class="form-control custom-input" placeholder="e.g. All 10 Experiments Submitted &amp; Signed by Instructor">
+                        </div>
+
+                        <!-- Action Controls -->
+                        <div class="col-12 text-end mt-4">
+                            <a th:href="@{/enrollments}" class="btn btn-outline-secondary me-2 rounded-3">Cancel</a>
+                            <button type="submit" class="btn btn-gradient-primary">
+                                <i class="fa-solid fa-floppy-disk me-1"></i> Save Academic Record
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Footer Fragment -->
+        <div th:replace="~{fragments/footer :: footer}"></div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
