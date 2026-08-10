@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<body>
+<div th:fragment="sidebar(activeTab)" class="app-sidebar" id="appSidebar">
+    <!-- Top Akkhor Yellow Brand Box -->
+    <div class="sidebar-brand">
+        <div class="brand-icon">
+            <i class="fa-solid fa-graduation-cap"></i>
+        </div>
+        <div class="brand-title">
+            StudentHub<br><span style="font-size: 0.65rem; color: #042954; font-weight: 700; letter-spacing: 0.05em;">ACADEMIC PORTAL</span>
+        </div>
+    </div>
+    
+    <div class="sidebar-nav">
+        <div class="nav-section-title">Navigation</div>
+        
+        <a th:href="@{/dashboard}" th:classappend="${activeTab == 'dashboard' ? 'active' : ''}" class="nav-link-custom">
+            <i class="fa-solid fa-chart-pie"></i>
+            <span>Dashboard</span>
+        </a>
+        
+        <a th:href="@{/students}" th:classappend="${activeTab == 'students' ? 'active' : ''}" class="nav-link-custom">
+            <i class="fa-solid fa-user-graduate"></i>
+            <span>Students</span>
+        </a>
+
+        <!-- Admin Only: Manage Instructors -->
+        <a sec:authorize="hasRole('ADMIN')" th:href="@{/instructors}" th:classappend="${activeTab == 'instructors' ? 'active' : ''}" class="nav-link-custom">
+            <i class="fa-solid fa-chalkboard-user"></i>
+            <span>Manage Instructors</span>
+        </a>
+        
+        <a th:href="@{/courses}" th:classappend="${activeTab == 'courses' ? 'active' : ''}" class="nav-link-custom">
+            <i class="fa-solid fa-book-open"></i>
+            <span>Courses</span>
+        </a>
+
+        <a th:href="@{/departments}" th:classappend="${activeTab == 'departments' ? 'active' : ''}" class="nav-link-custom">
+            <i class="fa-solid fa-building-columns"></i>
+            <span>Departments</span>
+        </a>
+
+        <a th:href="@{/enrollments}" th:classappend="${activeTab == 'enrollments' ? 'active' : ''}" class="nav-link-custom">
+            <i class="fa-solid fa-clipboard-check"></i>
+            <span>Enrollments & Grades</span>
+        </a>
+
+        <div class="nav-section-title mt-4">Account & Security</div>
+
+        <!-- Admin Only: Authorize New Admin -->
+        <a sec:authorize="hasRole('ADMIN')" th:href="@{/admin/create-admin}" th:classappend="${activeTab == 'admin' ? 'active' : ''}" class="nav-link-custom">
+            <i class="fa-solid fa-user-shield text-warning"></i>
+            <span>Create Admin</span>
+        </a>
+
+        <div class="px-3 py-3 mt-3 bg-black bg-opacity-25 rounded-3 text-light" style="font-size: 0.825rem; border: 1px solid rgba(255,255,255,0.08);">
+            <div class="text-white-50 small mb-1">Logged in as:</div>
+            <strong style="color: #feb600;" sec:authentication="name">User</strong>
+            <span class="badge badge-role ms-1 bg-warning text-dark" sec:authentication="principal.authorities[0]">ROLE</span>
+        </div>
+
+        <form th:action="@{/logout}" method="post" class="px-2 mt-3">
+            <button type="submit" class="btn btn-outline-light w-100 btn-sm rounded-2" style="border-color: rgba(255,255,255,0.25);">
+                <i class="fa-solid fa-right-from-bracket me-2 text-warning"></i> Logout
+            </button>
+        </form>
+    </div>
+</div>
+</body>
+</html>
