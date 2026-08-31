@@ -86,30 +86,6 @@ This project was developed to practice **Java programming, database connectivity
 * **IDE:** IntelliJ IDEA / Eclipse / VS Code
 * **Build Tool:** Maven *(if applicable)*
 
-## 📂 Project Structure
-
-```text
-Student-Management-System/
-│
-├── src/
-│   ├── main/
-│   │   ├── java/
-│   │   │   └── com/studentmanagement/
-│   │   │       ├── controller/
-│   │   │       ├── service/
-│   │   │       ├── repository/
-│   │   │       ├── model/
-│   │   │       └── StudentManagementApplication.java
-│   │   │
-│   │   └── resources/
-│   │       ├── static/
-│   │       ├── templates/
-│   │       └── application.properties
-│
-├── pom.xml
-└── README.md
-```
-
 ## ⚙️ Main Operations
 
 The application provides the following CRUD operations:
